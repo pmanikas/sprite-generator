@@ -1,0 +1,24 @@
+@use "sass:color";
+
+$c-white: #fff;
+$c-black: #000;
+$c-gray: #6c757d;
+$c-gray-dark: #343a40;
+$c-gray-light: #f8f9fa;
+
+$c-primary: #4d4dff;
+$c-secondary: #ff4d4d;
+$c-light: #f8f9fa;
+$c-dark: #343a40;
+
+$c-success: #28a745;
+$c-info: #17a2b8;
+$c-warning: #ffc107;
+$c-danger: #dc3545;
+
+$c-bg: $c-gray-dark;
+$c-text: $c-light;
+$c-link: $c-primary;
+
+$c-link-hover: color.adjust($c-link, $lightness: +20%);
+

@@ -1,0 +1,9 @@
+@forward 'reset';
+@forward 'typography';
+
+@use './../abstracts' as *;
+
+body {
+    background-color: $c-bg;
+    color: $c-text;
+}
