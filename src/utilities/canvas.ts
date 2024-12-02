@@ -31,8 +31,6 @@ const paintImages = async ({ ctx, imageUrls = [], arrange }: PaintImagesParams):
     }
 
     // Set canvas size
-    console.log({arrange, canvasWidth, canvasHeight});
-
     ctx.canvas.width = canvasWidth;
     ctx.canvas.height = canvasHeight;
 

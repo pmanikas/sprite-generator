@@ -8,8 +8,6 @@ const loadImageAsync = (src: string): Promise<HTMLImageElement> => {
 }
 
 const loadImagesAsync = (srcs: string[]): Promise<HTMLImageElement[]> => {
-    // console.log(srcs);
-
     return Promise.all(Array.from(srcs).map(loadImageAsync));
 }
 

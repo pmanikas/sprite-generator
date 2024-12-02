@@ -2,6 +2,7 @@
 import { ref, watch, onMounted, reactive } from 'vue';
 
 import Button from './components/Button.vue';
+import Dropdown from './components/Dropdown.vue';
 
 import ImageInfoTile from './components/ImageInfoTile.vue';
 import { loadImagesAsync } from './utilities/images';
@@ -10,6 +11,20 @@ import { paintImages } from './utilities/canvas';
 const addedImages = ref([]);
 const input = ref(null);
 const ctx = ref(null);
+const selectedArrangement = ref('horizontal');
+
+const arrangeOptions = [
+    {
+        label: 'Diagonal',
+        value: 'diagonal'
+    }, {
+        label: 'Horizontal',
+        value: 'horizontal'
+    }, {
+        label: 'Vertical',
+        value: 'vertical'
+    }
+];
 
 async function loadImages(imageSources) {
     try {
@@ -23,13 +38,14 @@ async function loadImages(imageSources) {
 const addImage = ({ target }) => {
     const files = Array.from(target.files);
     if (files.length === 0) return;
-    addedImages.value = files.map((file) => URL.createObjectURL(file));
-    paintImages({ ctx: ctx.value, imageUrls: [...addedImages.value], arrange: 'diagonal' });
+    const newImages = files.map((file) => URL.createObjectURL(file));
+    addedImages.value = [...addedImages.value, ...newImages];
+
     target.value = '';
 }
 
 const removePhoto = (index) => {
-    addedImages.value.splice(index, 1);
+    addedImages.value = addedImages.value.filter((_, i) => i !== index);
 }
 
 const triggerInput = () => {
@@ -46,13 +62,21 @@ const downloadSprite = () => {
     a.remove();
 }
 
+const paint = () => {
+    paintImages({ ctx: ctx.value, imageUrls: [...addedImages.value], arrange: selectedArrangement.value });
+}
+
 onMounted(() => {
     const canvas = document.querySelector('[data-element=canvas]');
     ctx.value = canvas.getContext('2d');
 });
 
 watch(addedImages, () => {
-    console.log('WATCHER: addedImages:', addedImages);
+    paint();
+});
+
+watch(selectedArrangement, () => {
+    paint();
 });
 
 
@@ -60,6 +84,9 @@ watch(addedImages, () => {
 
 <template>
     <h1 class="text-center">Sprite Generator</h1>
+    <div class="options">
+        <Dropdown :items="arrangeOptions" v-model="selectedArrangement"></Dropdown>
+    </div>
     <div class="sprite-generator">
         <div class="selection-container">
             <Button @click="triggerInput" class="add-new-image">Add Images</Button>
@@ -85,10 +112,15 @@ watch(addedImages, () => {
 <style scoped lang="scss">
 @use './styles/abstracts' as *;
 
+
 .sprite-generator {
+    --tool-window-size: 400px;
+
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: $s-base;
     background-color: $c-gray-light;
     padding: $s-base;
@@ -100,8 +132,8 @@ watch(addedImages, () => {
     align-items: center;
     justify-content: center;
     gap: $s-base;
-    width: 600px;
-    height: 600px;
+    width: var(--tool-window-size);
+    height: var(--tool-window-size);
     overflow: auto;
     background-color: $c-primary;
     border: 1px solid $c-gray-dark;
@@ -112,16 +144,16 @@ watch(addedImages, () => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 600px;
-    height: 600px;
+    width: var(--tool-window-size);
+    height: var(--tool-window-size);
     overflow: auto;
     color: $c-secondary;
     border: 1px solid $c-gray-dark;
 }
 
 .canvas-container {
-    width: 600px;
-    height: 600px;
+    width: var(--tool-window-size);
+    height: var(--tool-window-size);
     overflow: auto;
 }
 
@@ -138,7 +170,10 @@ watch(addedImages, () => {
 }
 
 @include desktop {
+
     .sprite-generator {
+        --tool-window-size: 700px;
+
         flex-direction: row;
     }
 }

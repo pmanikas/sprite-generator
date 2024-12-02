@@ -10,6 +10,7 @@ $c-primary: #4d4dff;
 $c-secondary: #ff4d4d;
 $c-light: #f8f9fa;
 $c-dark: #343a40;
+$c-highlight: #007bff;
 
 $c-success: #28a745;
 $c-info: #17a2b8;
@@ -19,6 +20,8 @@ $c-danger: #dc3545;
 $c-bg: $c-gray-dark;
 $c-text: $c-light;
 $c-link: $c-primary;
+$c-panel-bg: $c-gray-light;
+$c-panel-text: $c-gray-dark;
 
 $c-link-hover: color.adjust($c-link, $lightness: +20%);
 

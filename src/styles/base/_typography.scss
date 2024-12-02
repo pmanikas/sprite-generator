@@ -1,36 +1,31 @@
-// Typography scss
+@use './../abstracts/' as *;
 
-// Font sizes
-$font-size-small: 0.875rem;
-$font-size-base: 1rem;
-$font-size-large: 1.25rem;
-$font-size-xlarge: 1.5rem;
+$font-size-xlarge: 2.5rem;
+$font-size-large: 2rem;
+$font-size-base: 1.6rem;
+$font-size-small: 1.4rem;
 
-// Font weights
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-bold: 700;
 
-// Line heights
 $line-height-base: 1.5;
 $line-height-heading: 1.2;
 
-// Font families
-$font-family-sans-serif: 'Helvetica Neue', Arial, sans-serif;
+$font-family-sans-serif: "Space Grotesk", sans-serif;
 
-// Base typography styles
 body {
     font-size: $font-size-base;
     font-weight: $font-weight-normal;
     line-height: $line-height-base;
     font-family: $font-family-sans-serif;
-    color: #333;
+    color: $c-text;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-normal;
     line-height: $line-height-heading;
-    margin-bottom: 0.5em;
+    margin: $s-l 0;
 }
 
 h1 {
@@ -50,14 +45,15 @@ h4 {
 }
 
 p {
-    margin-bottom: 1em;
+    margin-bottom: $s-base;
 }
 
 a {
-    color: #007bff;
+    color: $c-link;
     text-decoration: none;
 
     &:hover {
+        color: $c-link-hover;
         text-decoration: underline;
     }
 }
