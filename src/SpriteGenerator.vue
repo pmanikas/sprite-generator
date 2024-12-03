@@ -3,6 +3,7 @@ import { ref, watch, onMounted, reactive } from 'vue';
 
 import Button from './components/Button.vue';
 import Dropdown from './components/Dropdown.vue';
+import Input from './components/Input.vue';
 
 import ImageInfoTile from './components/ImageInfoTile.vue';
 import { loadImagesAsync } from './utilities/images';
@@ -12,6 +13,7 @@ const addedImages = ref([]);
 const input = ref(null);
 const ctx = ref(null);
 const selectedArrangement = ref('horizontal');
+const spacing = ref(0);
 
 const arrangeOptions = [
     {
@@ -63,7 +65,7 @@ const downloadSprite = () => {
 }
 
 const paint = () => {
-    paintImages({ ctx: ctx.value, imageUrls: [...addedImages.value], arrange: selectedArrangement.value });
+    paintImages({ ctx: ctx.value, imageUrls: [...addedImages.value], arrange: selectedArrangement.value, spacing: Number(spacing.value) });
 }
 
 onMounted(() => {
@@ -71,22 +73,18 @@ onMounted(() => {
     ctx.value = canvas.getContext('2d');
 });
 
-watch(addedImages, () => {
-    paint();
-});
-
-watch(selectedArrangement, () => {
-    paint();
-});
-
-
+watch(addedImages, () => paint());
+watch(selectedArrangement, () => paint());
+watch(spacing, () => paint());
 </script>
 
 <template>
     <h1 class="text-center">Sprite Generator</h1>
     <div class="options">
-        <Dropdown :items="arrangeOptions" v-model="selectedArrangement"></Dropdown>
+        <Dropdown :items="arrangeOptions" v-model="selectedArrangement" label="Arrangement"></Dropdown>
+        <Input type="number" min="1" v-model="spacing" label="Spacing" />
     </div>
+    <br>
     <div class="sprite-generator">
         <div class="selection-container">
             <Button @click="triggerInput" class="add-new-image">Add Images</Button>
@@ -112,6 +110,11 @@ watch(selectedArrangement, () => {
 <style scoped lang="scss">
 @use './styles/abstracts' as *;
 
+.options {
+    display: flex;
+    justify-content: center;
+    gap: $s-base;
+}
 
 .sprite-generator {
     --tool-window-size: 400px;
@@ -139,6 +142,13 @@ watch(selectedArrangement, () => {
     border: 1px solid $c-gray-dark;
 }
 
+.added-images {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: $s-m;
+}
+
 .results-container {
     display: flex;
     flex-direction: column;
@@ -161,7 +171,6 @@ watch(selectedArrangement, () => {
     $size: 5px;
 
     background-color: $c-gray-dark;
-
     background-image:
         linear-gradient(45deg, $c-gray 25%, transparent 25%, transparent 75%, $c-gray 75%, $c-gray),
         linear-gradient(45deg, $c-gray 25%, transparent 25%, transparent 75%, $c-gray 75%, $c-gray);

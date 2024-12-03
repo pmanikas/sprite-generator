@@ -18,12 +18,12 @@ const removePhoto = () => {
 <template>
     <div class="image-info-tile">
         <img class="preview-photo" :src="photo" />
-        <div class="css-selection-rule">
+        <!-- <div class="css-selection-rule">
             <p class="css-code">
                 Test text
             </p>
             <button>Copy</button>
-        </div>
+        </div> -->
         <i @click="removePhoto()" class="remove">Remove</i>
     </div>
 </template>
@@ -35,6 +35,8 @@ const removePhoto = () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: $s-m;
+    width: 100%;
     padding: $s-m;
     border: 1px solid $c-gray-light;
     border-radius: $s-s;
@@ -42,8 +44,8 @@ const removePhoto = () => {
 }
 
 .preview-photo {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: $s-s;
 }
@@ -51,5 +53,10 @@ const removePhoto = () => {
 .css-selection-rule {
     flex: 1;
     padding: 0 $s-m;
+}
+
+.remove {
+    font-size: 1rem;
+    cursor: pointer;
 }
 </style>

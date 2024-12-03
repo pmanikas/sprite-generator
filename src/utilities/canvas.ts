@@ -4,9 +4,13 @@ interface PaintImagesParams {
     ctx: CanvasRenderingContext2D;
     imageUrls: string[];
     arrange: "horizontal" | "vertical" | "diagonal";
+    spacing: number;
 }
 
-const paintImages = async ({ ctx, imageUrls = [], arrange }: PaintImagesParams): Promise<void> => {
+const paintImages = async ({ ctx, imageUrls = [], arrange, spacing = 0 }: PaintImagesParams): Promise<void> => {
+
+    console.log(spacing);
+
     const images: HTMLImageElement[] = await loadImagesAsync(imageUrls);
 
     let canvasWidth: number = 0;
@@ -15,16 +19,16 @@ const paintImages = async ({ ctx, imageUrls = [], arrange }: PaintImagesParams):
     // Calculate canvas size based on images size and arrange
     switch (arrange) {
         case "horizontal":
-            canvasWidth = images.reduce((acc, image) => acc + image.width, 0);
+            canvasWidth = images.reduce((acc, image) => acc + image.width, (images.length - 1) * spacing);
             canvasHeight = Math.max(...images.map((image) => image.height));
             break;
         case "vertical":
             canvasWidth = Math.max(...images.map((image) => image.width));
-            canvasHeight = images.reduce((acc, image) => acc + image.height, 0);
+            canvasHeight = images.reduce((acc, image) => acc + image.height, (images.length - 1) * spacing);
             break;
         case "diagonal":
-            canvasWidth = images.reduce((acc, image) => acc + image.width, 0);
-            canvasHeight = images.reduce((acc, image) => acc + image.height, 0);
+            canvasWidth = images.reduce((acc, image) => acc + image.width, (images.length - 1) * spacing);
+            canvasHeight = images.reduce((acc, image) => acc + image.height, (images.length - 1) * spacing);
             break;
         default:
             throw new Error("Invalid arrange");
@@ -42,19 +46,18 @@ const paintImages = async ({ ctx, imageUrls = [], arrange }: PaintImagesParams):
         switch (arrange) {
             case "horizontal":
                 ctx.drawImage(image, x, y);
-                x += image.width;
+                x += image.width + spacing;
                 break;
             case "vertical":
                 ctx.drawImage(image, x, y);
-                y += image.height;
+                y += image.height + spacing;
                 break;
             case "diagonal":
                 ctx.drawImage(image, x, y);
-                x += image.width;
-                y += image.height;
+                x += image.width + spacing;
+                y += image.height + spacing;
                 break;
         }
-
     });
 };
 
