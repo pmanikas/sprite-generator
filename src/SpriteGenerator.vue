@@ -89,7 +89,7 @@ watch(spacing, () => paint());
         <div class="selection-container">
             <Button @click="triggerInput" class="add-new-image">Add Images</Button>
             <input ref="input" type="file" accept="image/*" multiple @change="addImage" style="display: none" />
-            <ul class="added-images">
+            <ul class="added-images" v-if="addedImages.length">
                 <li v-for="(photo, i) of addedImages" :key="'photo' + i">
                     <ImageInfoTile :photo="photo" @remove="removePhoto(i)" />
                 </li>
@@ -102,7 +102,8 @@ watch(spacing, () => paint());
             </div>
         </div>
     </div>
-    <div v-if="addedImages.length" class="actions">
+    <br>
+    <div v-if="addedImages.length" class="actions text-center">
         <Button @click="downloadSprite()">Download Sprite</Button>
     </div>
 </template>
@@ -127,6 +128,7 @@ watch(spacing, () => paint());
     gap: $s-base;
     background-color: $c-gray-light;
     padding: $s-base;
+    border-radius: $base-radius;
 }
 
 .selection-container {
@@ -140,6 +142,7 @@ watch(spacing, () => paint());
     overflow: auto;
     background-color: $c-primary;
     border: 1px solid $c-gray-dark;
+    border-radius: $base-radius;
 }
 
 .added-images {
@@ -159,6 +162,7 @@ watch(spacing, () => paint());
     overflow: auto;
     color: $c-secondary;
     border: 1px solid $c-gray-dark;
+    border-radius: $base-radius;
 }
 
 .canvas-container {

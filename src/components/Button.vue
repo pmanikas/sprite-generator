@@ -4,6 +4,7 @@ import { computed } from 'vue';
 
 const props = defineProps<{
     type?: 'primary' | 'secondary' | 'danger';
+    size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
 }>();
 
@@ -15,7 +16,8 @@ const buttonClass = computed(() => {
     return [
         'btn',
         props.type ? `btn-${props.type}` : '',
-        props.disabled ? 'btn-disabled' : ''
+        props.disabled ? 'btn-disabled' : '',
+        props.size ? `${props.size}` : ''
     ];
 });
 
@@ -34,9 +36,21 @@ const handleClick = () => {
 @use './../styles/abstracts' as *;
 
 .btn {
-    padding: $s-s $s-m;
+    padding: $s-m $s-l;
+    font-size: 1rem;
     border: none;
+    border-radius: $base-radius;
     cursor: pointer;
+
+    &.small {
+        padding: $s-s $s-m;
+        font-size: 0.75rem;
+    }
+
+    &.large {
+        padding: $s-l $s-xl;
+        font-size: 1.25;
+    }
 }
 
 .btn-primary {
