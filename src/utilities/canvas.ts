@@ -9,8 +9,6 @@ interface PaintImagesParams {
 
 const paintImages = async ({ ctx, imageUrls = [], arrange, spacing = 0 }: PaintImagesParams): Promise<void> => {
 
-    console.log(spacing);
-
     const images: HTMLImageElement[] = await loadImagesAsync(imageUrls);
 
     let canvasWidth: number = 0;

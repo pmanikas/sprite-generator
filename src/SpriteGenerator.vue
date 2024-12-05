@@ -1,19 +1,18 @@
-<script setup>
-import { ref, watch, onMounted, reactive } from 'vue';
+<script setup lang="ts">
+import { ref, watch, onMounted } from 'vue';
 
 import Button from './components/Button.vue';
 import Dropdown from './components/Dropdown.vue';
 import Input from './components/Input.vue';
 
 import ImageInfoTile from './components/ImageInfoTile.vue';
-import { loadImagesAsync } from './utilities/images';
 import { paintImages } from './utilities/canvas';
 
-const addedImages = ref([]);
-const input = ref(null);
-const ctx = ref(null);
-const selectedArrangement = ref('horizontal');
-const spacing = ref(0);
+const addedImages = ref<string[]>([]);
+const input = ref<HTMLInputElement | null>(null);
+const ctx = ref<CanvasRenderingContext2D | null>(null);
+const selectedArrangement = ref<'horizontal' | 'diagonal' | 'vertical'>('horizontal');
+const spacing = ref<number>(0);
 
 const arrangeOptions = [
     {
@@ -28,17 +27,9 @@ const arrangeOptions = [
     }
 ];
 
-async function loadImages(imageSources) {
-    try {
-        return await loadImagesAsync(imageSources);
-    } catch (error) {
-        console.error('Error loading one or more images:', error);
-        throw error;
-    }
-}
-
-const addImage = ({ target }) => {
-    const files = Array.from(target.files);
+const addImage = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const files = target.files ? Array.from(target.files) : [];
     if (files.length === 0) return;
     const newImages = files.map((file) => URL.createObjectURL(file));
     addedImages.value = [...addedImages.value, ...newImages];
@@ -46,31 +37,32 @@ const addImage = ({ target }) => {
     target.value = '';
 }
 
-const removePhoto = (index) => {
+const removePhoto = (index: number) => {
     addedImages.value = addedImages.value.filter((_, i) => i !== index);
 }
 
 const triggerInput = () => {
-    input.value.click();
+    input.value?.click();
 }
 
 const downloadSprite = () => {
-    const canvas = ctx.value.canvas;
-    const dataUrl = canvas.toDataURL('image/png');
+    const canvas = ctx.value?.canvas;
+    const dataUrl = canvas?.toDataURL('image/png');
     const a = document.createElement('a');
-    a.href = dataUrl;
+    a.href = dataUrl || '';
     a.download = 'sprite.png';
     a.click();
     a.remove();
 }
 
 const paint = () => {
-    paintImages({ ctx: ctx.value, imageUrls: [...addedImages.value], arrange: selectedArrangement.value, spacing: Number(spacing.value) });
+    if(!ctx.value) return;
+    paintImages({ ctx: ctx.value, imageUrls: [...addedImages.value], arrange: selectedArrangement.value, spacing: spacing.value ?? 0 });
 }
 
 onMounted(() => {
     const canvas = document.querySelector('[data-element=canvas]');
-    ctx.value = canvas.getContext('2d');
+    ctx.value = (canvas as HTMLCanvasElement)?.getContext('2d');
 });
 
 watch(addedImages, () => paint());

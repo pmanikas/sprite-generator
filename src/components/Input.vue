@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     label: {
         type: String
@@ -8,6 +8,7 @@ const props = defineProps({
         default: 'text'
     },
     modelValue: {
+        type: Number,
         default: null,
         required: true
     }
@@ -15,12 +16,16 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
+const updateValue = (event: Event) => {
+    return Number((event.target as HTMLInputElement)?.value || 0);
+}
+
 </script>
 
 <template>
     <div class="input-container">
-        <label v-if="label">{{ label }}</label>
-        <input class="input" :value="modelValue" :type="type" @change="emit('update:modelValue', $event.target.value)" />
+        <label v-if="props.label">{{ props.label }}</label>
+        <input class="input" :value="modelValue" :type="props.type" @change="emit('update:modelValue', updateValue($event))" />
     </div>
 </template>
 
