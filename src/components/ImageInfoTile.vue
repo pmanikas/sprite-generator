@@ -1,9 +1,6 @@
 <script setup lang="ts">;
-import { ref } from 'vue';
-
 const props = defineProps<{
     photo: string;
-    // meta: PhotoMeta;
 }>();
 
 const emit = defineEmits<{
@@ -17,13 +14,7 @@ const removePhoto = () => {
 
 <template>
     <div class="image-info-tile">
-        <img class="preview-photo" :src="photo" />
-        <!-- <div class="css-selection-rule">
-            <p class="css-code">
-                Test text
-            </p>
-            <button>Copy</button>
-        </div> -->
+        <img class="preview-photo" :src="props.photo" />
         <i @click="removePhoto()" class="remove">Remove</i>
     </div>
 </template>
