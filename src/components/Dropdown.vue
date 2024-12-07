@@ -37,7 +37,6 @@ const emit = defineEmits(['update:modelValue']);
 
 .select {
     padding: $s-xs $s-s;
-    border: 1px solid $c-gray;
     border-radius: $base-radius;
     height: $input-height;
     min-width: 300px;
