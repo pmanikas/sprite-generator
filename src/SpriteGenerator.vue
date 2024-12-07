@@ -84,7 +84,7 @@ watch(spacing, () => paint());
     </div>
     <div class="sprite-generator">
         <div class="selection-container" :class="{ 'empty' : !addedImages.length }">
-            <Button @click="triggerInput" class="add-new-image">Add Images</Button>
+            <Button title="Add new image" @click="triggerInput" class="add-new-image">+</Button>
             <input ref="input" type="file" accept="image/*" multiple @change="addImage" style="display: none" />
             <ul class="added-images" v-if="addedImages.length">
                 <li v-for="(photo, i) of addedImages" :key="'photo' + i">
@@ -145,6 +145,25 @@ watch(spacing, () => paint());
     &.empty {
         justify-content: center;
         padding-top: 0;
+    }
+}
+
+.add-new-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 2rem;
+    background-color: transparent;
+    color: $c-light;
+    border: 2px solid $c-light;
+    transition: scale 0.3s;
+
+    &:hover {
+        scale: 1.1;
     }
 }
 

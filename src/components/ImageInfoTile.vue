@@ -15,7 +15,7 @@ const removePhoto = () => {
 <template>
     <div class="image-info-tile">
         <img class="preview-photo" :src="props.photo" />
-        <i @click="removePhoto()" class="remove">Remove</i>
+        <i @click="removePhoto()" title="Remove image" class="remove">Remove</i>
     </div>
 </template>
 

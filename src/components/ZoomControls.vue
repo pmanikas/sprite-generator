@@ -24,7 +24,7 @@ const emit = defineEmits({
     <div class="zoom">
         <div class="zoom-controls">
             <button class="zoom-button" @click="zoomOut">-</button>
-            {{ zoomLevel.toFixed(1) }}
+            x {{ zoomLevel.toFixed(1) }}
             <button class="zoom-button" @click="zoomIn">+</button>
         </div>
     </div>
