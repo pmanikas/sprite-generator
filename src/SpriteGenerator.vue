@@ -131,6 +131,7 @@ watch(spacing, () => paint());
     gap: $s-base;
     width: var(--tool-window-size);
     height: var(--tool-window-size);
+    max-width: 100%;
     overflow: auto;
     background-color: $c-primary;
     border: 1px solid $c-gray-dark;
@@ -151,6 +152,7 @@ watch(spacing, () => paint());
     justify-content: center;
     width: var(--tool-window-size);
     height: var(--tool-window-size);
+    max-width: 100%;
     overflow: auto;
     color: $c-secondary;
     border: 1px solid $c-gray-dark;
@@ -179,6 +181,11 @@ watch(spacing, () => paint());
     .sprite-generator {
         --tool-window-size: 700px;
 
+    }
+}
+
+@include widescreen {
+    .sprite-generator {
         flex-direction: row;
     }
 }

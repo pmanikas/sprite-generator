@@ -4,10 +4,7 @@ import SpriteGenerator from './SpriteGenerator.vue';
 
 <template>
     <div class="wrapper">
-        <header></header>
-        <main>
-            <SpriteGenerator />
-        </main>
+        <SpriteGenerator />
     </div>
 </template>
 
@@ -17,6 +14,5 @@ import SpriteGenerator from './SpriteGenerator.vue';
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 100vh;
 }
 </style>

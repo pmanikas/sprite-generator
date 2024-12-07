@@ -33,8 +33,8 @@ const paintImages = async ({ ctx, imageUrls = [], arrange, spacing = 0 }: PaintI
     }
 
     // Set canvas size
-    ctx.canvas.width = canvasWidth;
-    ctx.canvas.height = canvasHeight;
+    ctx.canvas.style.width = `${canvasWidth}px`;
+    ctx.canvas.style.height = `${canvasHeight}px`;
 
     // Paint images on ctx based on arrange
     let x: number = 0;
