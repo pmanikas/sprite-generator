@@ -8,7 +8,6 @@ import SpriteGenerator from './SpriteGenerator.vue';
         <main>
             <SpriteGenerator />
         </main>
-        <footer></footer>
     </div>
 </template>
 

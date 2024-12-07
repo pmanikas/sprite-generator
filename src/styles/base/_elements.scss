@@ -1,0 +1,29 @@
+@use './../abstracts' as *;
+
+body {
+    background-color: $c-bg;
+    color: $c-text;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $s-base;
+    width: 100%;
+    font-size: 0;
+    background-color: $c-bg;
+    padding: $s-s 0;
+
+    > * {
+        opacity: 0.5;
+        transition: opacity .3s;
+        scale: 0.8;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
