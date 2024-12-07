@@ -94,8 +94,8 @@ watch(spacing, () => paint());
             </div>
         </div>
     </div>
-    <br>
     <div v-if="addedImages.length" class="actions text-center">
+        <br>
         <Button @click="downloadSprite()">Download Sprite</Button>
     </div>
 </template>
