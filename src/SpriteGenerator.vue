@@ -4,6 +4,7 @@ import { ref, watch, onMounted } from 'vue';
 import Button from './components/Button.vue';
 import Dropdown from './components/Dropdown.vue';
 import Input from './components/Input.vue';
+import ZoomControls from './components/ZoomControls.vue';
 
 import ImageInfoTile from './components/ImageInfoTile.vue';
 import { paintImages } from './utilities/canvas';
@@ -60,6 +61,11 @@ const paint = () => {
     paintImages({ ctx: ctx.value, imageUrls: [...addedImages.value], arrange: selectedArrangement.value, spacing: spacing.value ?? 0 });
 }
 
+const updateZoomVariable = (value: number) => {
+    document.documentElement.style.setProperty('--canvas-zoom-level', value.toString());
+    paint();
+}
+
 onMounted(() => {
     const canvas = document.querySelector('[data-element=canvas]');
     ctx.value = (canvas as HTMLCanvasElement)?.getContext('2d');
@@ -76,9 +82,8 @@ watch(spacing, () => paint());
         <Dropdown :items="arrangeOptions" v-model="selectedArrangement" label="Arrangement"></Dropdown>
         <Input type="number" min="1" v-model="spacing" label="Spacing" />
     </div>
-    <br>
     <div class="sprite-generator">
-        <div class="selection-container">
+        <div class="selection-container" :class="{ 'empty' : !addedImages.length }">
             <Button @click="triggerInput" class="add-new-image">Add Images</Button>
             <input ref="input" type="file" accept="image/*" multiple @change="addImage" style="display: none" />
             <ul class="added-images" v-if="addedImages.length">
@@ -90,12 +95,12 @@ watch(spacing, () => paint());
         <div class="results-container">
             <p v-if="!addedImages.length" class="canvas-message">Images not added yet</p>
             <div v-show="addedImages.length" class="canvas-container">
-                <canvas  data-element="canvas" class="canvas"></canvas>
+                <canvas data-element="canvas" class="canvas"></canvas>
+                <ZoomControls class="zoom" @zoom="updateZoomVariable"/>
             </div>
         </div>
     </div>
     <div v-if="addedImages.length" class="actions text-center">
-        <br>
         <Button @click="downloadSprite()">Download Sprite</Button>
     </div>
 </template>
@@ -127,15 +132,20 @@ watch(spacing, () => paint());
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: $s-base;
     width: var(--tool-window-size);
     height: var(--tool-window-size);
     max-width: 100%;
+    padding-top: $s-base;
     overflow: auto;
     background-color: $c-primary;
     border: 1px solid $c-gray-dark;
     border-radius: $base-radius;
+
+    &.empty {
+        justify-content: center;
+        padding-top: 0;
+    }
 }
 
 .added-images {
@@ -146,6 +156,7 @@ watch(spacing, () => paint());
 }
 
 .results-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -157,6 +168,19 @@ watch(spacing, () => paint());
     color: $c-secondary;
     border: 1px solid $c-gray-dark;
     border-radius: $base-radius;
+
+    &:hover .zoom {
+        opacity: 1;
+    }
+}
+
+.zoom {
+    position: absolute;
+    bottom: $s-base;
+    right: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .canvas-container {

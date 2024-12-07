@@ -32,9 +32,12 @@ const paintImages = async ({ ctx, imageUrls = [], arrange, spacing = 0 }: PaintI
             throw new Error("Invalid arrange");
     }
 
-    // Set canvas size
-    ctx.canvas.style.width = `${canvasWidth}px`;
-    ctx.canvas.style.height = `${canvasHeight}px`;
+    // Set canvas size (css will help us use zoom in/out)
+    ctx.canvas.width = canvasWidth;
+    ctx.canvas.height = canvasHeight;
+    const scale = Number(document.documentElement.style.getPropertyValue("--canvas-zoom-level") || "1");
+    ctx.canvas.style.width = `${Number(canvasWidth) * scale}px`;
+    ctx.canvas.style.height = `${Number(canvasHeight) * scale}px`;
 
     // Paint images on ctx based on arrange
     let x: number = 0;

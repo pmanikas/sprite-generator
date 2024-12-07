@@ -25,3 +25,5 @@ $c-panel-text: $c-gray-dark;
 
 $c-link-hover: color.adjust($c-link, $lightness: +20%);
 
+// transparent variants using scss color.adjust function
+$c-bg-trans: color.adjust($c-bg, $alpha: 0.5);
