@@ -77,7 +77,7 @@ watch(spacing, () => paint());
 </script>
 
 <template>
-    <h1 class="text-center">Sprite Generator</h1>
+    <h1 class="text-center framed-hide">Sprite Generator</h1>
     <div class="options">
         <Dropdown :items="arrangeOptions" v-model="selectedArrangement" label="Arrangement"></Dropdown>
         <Input type="number" min="1" v-model="spacing" label="Spacing" />

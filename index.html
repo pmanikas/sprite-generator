@@ -15,9 +15,15 @@
     <body>
         <div id="app"></div>
         <script type="module" src="src/main.ts"></script>
-        <div class="footer">
+        <div class="footer framed-hide">
             <script src="https://pmanikas.github.io/pmanikas/scripts/github-button-8bit.js"></script>
             <script src="https://pmanikas.github.io/pmanikas/scripts/buy-me-coffee-button-8bit.js"></script>
+            <script>
+                // if parent element is iframe add class 'framed' to body
+                if (window.parent !== window) {
+                    document.body.classList.add('framed');
+                }
+            </script>
         </div>
     </body>
 </html>
